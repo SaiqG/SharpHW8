@@ -1,12 +1,12 @@
-﻿// Задача 62. Напишите программу, которая заполнит спирально массив 4 на 4.
+﻿using System.Globalization;
+Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+// Задача 62. Напишите программу, которая заполнит спирально массив 4 на 4.
 // Например, на выходе получается вот такой массив:
 // 01 02 03 04
 // 12 13 14 05
 // 11 16 15 06
 // 10 09 08 07
-
-using System.Globalization;
-Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
 string[] EnterAndSplitString()
 {
@@ -24,7 +24,7 @@ int[] ParseInput(string[] nums)
     return integerNums;
 }
 
-// Через рекурсию не получилось :( 
+// Через рекурсию не получилось :(  Точнее получилось, но код выглядил ужасно,с кучей костылей, и работал долго.
 
 // int ind = 1;    
 // void FillSpiralArray(int row, int col, int ind)
@@ -47,13 +47,13 @@ int[] ParseInput(string[] nums)
 // }
 // FillSpiralArray(0, 0, ind);
 
-int[,] FillSpiralArray(int[,] array2d)
+int[,] FillSpiralArray(int[,] array2d) // нууу.. зато работает XD
 {
     int row = 1;
     int col = 1;
     int fill = 1;
 
-    while (fill < array2d.GetLength(1) * array2d.GetLength(0) - array2d.GetLength(1) * 4 + 5)
+    while (fill < array2d.GetLength(1) * array2d.GetLength(0) - array2d.GetLength(1) * 4 + 5) // изначально собирается массив где 0 и последняя строчка и столбец - нули
     {
         while (array2d[row, col] == 0 && col + 1 < array2d.GetLength(1))
         {
@@ -89,7 +89,7 @@ int[,] FillSpiralArray(int[,] array2d)
         row++;
     }
 
-    int[,] fineArray = new int[array2d.GetLength(0) - 2, array2d.GetLength(1) - 2];
+    int[,] fineArray = new int[array2d.GetLength(0) - 2, array2d.GetLength(1) - 2]; // убираем из массива коробку из нулей.
 
     for (int i = 1; i < array2d.GetLength(0) - 1; i++)
     {
@@ -99,7 +99,7 @@ int[,] FillSpiralArray(int[,] array2d)
         }
     }
 
-    return fineArray;
+    return fineArray; //получаем нормальный массив, завернутый в спираль
 
 }
 
@@ -116,6 +116,8 @@ void Print2dArray(int[,] array)
     Console.WriteLine();
 }
 
+Console.WriteLine("Задайте размер матрицы.");
 int[] arrayScale = ParseInput(EnterAndSplitString());
-int[,] array2d = new int[arrayScale[0] + 2, arrayScale[1] + 2];
+Console.WriteLine();
+int[,] array2d = new int[arrayScale[0] + 2, arrayScale[1] + 2]; // метод собирает массив с 2 лишними строками и 2 лишними столбцами а потом убирает их, по этому такой костыль.
 Print2dArray(FillSpiralArray(array2d));
